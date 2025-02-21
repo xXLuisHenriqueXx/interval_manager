@@ -33,6 +33,6 @@ export abstract class Component<T extends HTMLElement, U extends HTMLElement> {
     );
   }
 
-  abstract configure(): void;
+  abstract configure(lastEndNumber?: boolean): void;
   abstract renderContent(): void;
 }

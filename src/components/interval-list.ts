@@ -4,6 +4,7 @@ import { IntervalItem } from "./interval-item";
 
 export class IntervalList extends Component<HTMLDivElement, HTMLElement> {
   private intervals: IInterval[] = [];
+  private onIntervalRemove?: (lastEndNumber: number) => void;
 
   constructor() {
     super("intervals-template", "app", false, "intervals");
@@ -15,6 +16,10 @@ export class IntervalList extends Component<HTMLDivElement, HTMLElement> {
   configure() {
     this.element.addEventListener("interval-remove", ((e: CustomEvent) => {
       this.removeInterval(e.detail);
+    }) as EventListener);
+
+    this.element.addEventListener("interval-edit", ((e: CustomEvent) => {
+      this.editInterval(e.detail.id, e.detail.newEnd);
     }) as EventListener);
   }
 
@@ -33,17 +38,47 @@ export class IntervalList extends Component<HTMLDivElement, HTMLElement> {
     this.renderList();
   }
 
+  setOnIntervalRemove(handler: (lastEndNumber: number) => void) {
+    this.onIntervalRemove = handler;
+  }
+
+  private editInterval(intervalId: string, newEnd: number) {
+    const interval = this.intervals.find(int => int.id === intervalId);
+    
+    if (interval) {
+      interval.end = newEnd;
+      this.renderList();
+      
+      if (this.onIntervalRemove) {
+        this.onIntervalRemove(newEnd);
+      }
+    }
+  }
+
   private removeInterval(intervalId: string) {
-    this.intervals = this.intervals.filter((int) => int.id !== intervalId);
-    this.renderList();
+    const intervalIndex = this.intervals.findIndex((int) => int.id === intervalId);
+    
+    if (intervalIndex !== -1) {
+      this.intervals.splice(intervalIndex);
+      const lastEndNumber = intervalIndex > 0 
+        ? this.intervals[intervalIndex - 1].end 
+        : 0;
+
+      this.renderList();
+
+      if (this.onIntervalRemove) {
+        this.onIntervalRemove(lastEndNumber);
+      }
+    }
   }
 
   private renderList() {
     const listEl = this.element.querySelector("ul")!;
     listEl.innerHTML = "";
 
-    for (const intervalData of this.intervals) {
-      new IntervalItem(listEl.id, intervalData);
-    }
+    this.intervals.forEach((intervalData, index) => {
+      const lastInterval = index === this.intervals.length - 1;
+      new IntervalItem(listEl.id, intervalData, lastInterval);
+    });
   }
 }

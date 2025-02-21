@@ -17,6 +17,7 @@ export class IntervalInput extends Component<HTMLDivElement, HTMLFormElement> {
     this.endInput = this.element.querySelector("#end") as HTMLInputElement;
 
     this.intervalList = new IntervalList();
+    this.intervalList.setOnIntervalRemove(this.handleIntervalRemove.bind(this));
     this.configure();
   }
 
@@ -63,6 +64,11 @@ export class IntervalInput extends Component<HTMLDivElement, HTMLFormElement> {
       this.clearInputs();
       this.startInput.focus();
     }
+  }
+
+  @Autobind
+  private handleIntervalRemove(lastEndNumber: number) {
+    this.lastEndNumber = lastEndNumber;
   }
 
   private clearInputs() {

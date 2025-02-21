@@ -12,10 +12,12 @@ export const validate = (input: IValidatable) => {
   }
 
   if (input.lastEndNumber !== undefined) {
+    const currentValue = +input.value;
+
     if (input.lastEndNumber === 0) {
-      isValid = isValid && +input.value === 0;
+      isValid = isValid && currentValue === 0;
     } else {
-      isValid = isValid && +input.value === input.lastEndNumber;
+      isValid = isValid && currentValue === input.lastEndNumber;
     }
   }
 
