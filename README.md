@@ -1,0 +1,1 @@
+Projeto destinado ao treino das tecnologias web vistas na Scholarship da Compass UOL.
