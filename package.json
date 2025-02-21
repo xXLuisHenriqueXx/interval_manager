@@ -1,0 +1,17 @@
+{
+  "name": "interval-manager",
+  "version": "1.0.0",
+  "description": "Interval Manager",
+  "main": "index.js",
+  "scripts": {
+    "start": "lite-server"
+  },
+  "keywords": [
+    "interval"
+  ],
+  "author": "Luis Henrique",
+  "dependencies": {
+    "lite-server": "^2.6.1",
+    "typescript": "^5.7.3"
+  }
+}
