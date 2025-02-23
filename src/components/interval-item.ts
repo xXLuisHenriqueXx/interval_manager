@@ -30,24 +30,6 @@ export class IntervalItem extends Component<HTMLUListElement, HTMLLIElement> {
     }
   }
 
-  @Autobind
-  private handleEdit() {
-    const newEnd = prompt("Digite o novo valor final:");
-
-    if (newEnd && !isNaN(+newEnd) && +newEnd > this.interval.start) {
-      const event = new CustomEvent("interval-edit", {
-        detail: {
-          id: this.interval.id,
-          newEnd: +newEnd,
-        },
-        bubbles: true,
-      });
-      this.element.dispatchEvent(event);
-    } else {
-      alert("Valor inválido! O fim deve ser maior que o início.");
-    }
-  }
-
   renderContent() {
     this.element.querySelector(
       ".interval"
@@ -65,7 +47,6 @@ export class IntervalItem extends Component<HTMLUListElement, HTMLLIElement> {
           </clipPath>
         </defs>
       </svg>
-
     `;
 
     const buttonRemove = this.element.querySelector("#remove")!;
@@ -74,9 +55,25 @@ export class IntervalItem extends Component<HTMLUListElement, HTMLLIElement> {
         <path d="M15 5L5 15" stroke="#1f1f22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M5 5L15 15" stroke="#1f1f22" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-
-
     `;
+  }
+
+  @Autobind
+  private handleEdit() {
+    const newEnd = prompt("Digite o novo valor final:");
+
+    if (newEnd && +newEnd > this.interval.start) {
+      const event = new CustomEvent("interval-edit", {
+        detail: {
+          id: this.interval.id,
+          newEnd: +newEnd,
+        },
+        bubbles: true,
+      });
+      this.element.dispatchEvent(event);
+    } else {
+      alert("Valor inválido! O fim deve ser maior que o início.");
+    }
   }
 
   @Autobind

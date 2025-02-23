@@ -29,7 +29,7 @@ export class IntervalList extends Component<HTMLDivElement, HTMLElement> {
 
   addInterval(start: number, end: number) {
     const newInterval: IInterval = {
-      id: Math.random().toString(),
+      id: Math.floor(Math.random() * 1000).toString(),
       start,
       end,
     };
@@ -43,12 +43,12 @@ export class IntervalList extends Component<HTMLDivElement, HTMLElement> {
   }
 
   private editInterval(intervalId: string, newEnd: number) {
-    const interval = this.intervals.find(int => int.id === intervalId);
-    
+    const interval = this.intervals.find((int) => int.id === intervalId);
+
     if (interval) {
       interval.end = newEnd;
       this.renderList();
-      
+
       if (this.onIntervalRemove) {
         this.onIntervalRemove(newEnd);
       }
@@ -56,13 +56,14 @@ export class IntervalList extends Component<HTMLDivElement, HTMLElement> {
   }
 
   private removeInterval(intervalId: string) {
-    const intervalIndex = this.intervals.findIndex((int) => int.id === intervalId);
-    
+    const intervalIndex = this.intervals.findIndex(
+      (int) => int.id === intervalId
+    );
+
     if (intervalIndex !== -1) {
-      this.intervals.splice(intervalIndex);
-      const lastEndNumber = intervalIndex > 0 
-        ? this.intervals[intervalIndex - 1].end 
-        : 0;
+      this.intervals.splice(intervalIndex, this.intervals.length - intervalIndex);
+      const lastEndNumber =
+        intervalIndex > 0 ? this.intervals[intervalIndex - 1].end : 0;
 
       this.renderList();
 

@@ -6,8 +6,8 @@ import { IntervalList } from "./interval-list";
 export class IntervalInput extends Component<HTMLDivElement, HTMLFormElement> {
   startInput: HTMLInputElement;
   endInput: HTMLInputElement;
-  private intervalList: IntervalList;
 
+  private intervalList: IntervalList;
   private lastEndNumber: number = 0;
 
   constructor() {
@@ -58,21 +58,23 @@ export class IntervalInput extends Component<HTMLDivElement, HTMLFormElement> {
       const [start, end] = userInput;
 
       this.intervalList.addInterval(start, end);
-
       this.lastEndNumber = end;
 
       this.clearInputs();
-      this.startInput.focus();
+      this.endInput.focus();
     }
   }
 
   @Autobind
   private handleIntervalRemove(lastEndNumber: number) {
     this.lastEndNumber = lastEndNumber;
+
+    this.clearInputs();
+    this.endInput.focus();
   }
 
   private clearInputs() {
-    this.startInput.value = "";
+    this.startInput.value = this.lastEndNumber.toString();
     this.endInput.value = "";
   }
 
