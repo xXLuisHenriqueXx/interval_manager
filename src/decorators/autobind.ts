@@ -1,6 +1,3 @@
-// Autobind decorator
-// _ = target
-// __ = method name
 export const Autobind = (
   _: any,
   __: string,

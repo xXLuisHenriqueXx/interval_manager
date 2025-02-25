@@ -41,12 +41,12 @@ export class IntervalInput extends Component<HTMLDivElement, HTMLFormElement> {
       return;
     }
 
-    if (+enteredEnd <= +enteredStart) {
+    if (Number(enteredEnd) <= Number(enteredStart)) {
       alert("O fim do intervalo deve ser maior que o início");
       return;
     }
 
-    return [+enteredStart, +enteredEnd];
+    return [Number(enteredStart), Number(enteredEnd)];
   }
 
   @Autobind

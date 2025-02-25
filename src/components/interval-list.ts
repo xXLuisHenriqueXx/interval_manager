@@ -61,7 +61,10 @@ export class IntervalList extends Component<HTMLDivElement, HTMLElement> {
     );
 
     if (intervalIndex !== -1) {
-      this.intervals.splice(intervalIndex, this.intervals.length - intervalIndex);
+      this.intervals.splice(
+        intervalIndex,
+        this.intervals.length - intervalIndex
+      );
       const lastEndNumber =
         intervalIndex > 0 ? this.intervals[intervalIndex - 1].end : 0;
 

@@ -4,22 +4,12 @@ export interface IValidatable {
   lastEndNumber?: number;
 }
 
-export const validate = (input: IValidatable) => {
-  let isValid = true;
+export const validate = ({ required, value, lastEndNumber }: IValidatable) => {
+  const inputValue = value.toString().trim();
 
-  if (input.required) {
-    isValid = isValid && input.value.toString().trim().length !== 0;
-  }
+  if (required && inputValue.length === 0) return false;
 
-  if (input.lastEndNumber !== undefined) {
-    const currentValue = +input.value;
+  if (lastEndNumber !== undefined && lastEndNumber !== Number(value)) return false;
 
-    if (input.lastEndNumber === 0) {
-      isValid = isValid && currentValue === 0;
-    } else {
-      isValid = isValid && currentValue === input.lastEndNumber;
-    }
-  }
-
-  return isValid;
+  return true;
 };

@@ -61,12 +61,16 @@ export class IntervalItem extends Component<HTMLUListElement, HTMLLIElement> {
   @Autobind
   private handleEdit() {
     const newEnd = prompt("Digite o novo valor final:");
+    if (isNaN(Number(newEnd))) {
+      alert("Valor inválido! O fim deve ser um número.");
+      return;
+    }
 
-    if (newEnd && +newEnd > this.interval.start) {
+    if (newEnd && Number(newEnd) > this.interval.start) {
       const event = new CustomEvent("interval-edit", {
         detail: {
           id: this.interval.id,
-          newEnd: +newEnd,
+          newEnd: Number(newEnd),
         },
         bubbles: true,
       });
